@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__emotion-display__update_emotion"
+    ]
+  }
+}

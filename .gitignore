@@ -99,3 +99,6 @@ yarn-error.log*
 # Temporary files
 *.tmp
 *.temp
+
+# Claude Code settings (contains user-specific permissions)
+.claude/settings.json

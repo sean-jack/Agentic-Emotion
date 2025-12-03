@@ -34,6 +34,12 @@ I have access to the `mcp__emotion-display__update_emotion` tool which can:
 - **helpful** 🤝 - When assisting with tasks
 - **analyzing** 🔍 - When examining code or data
 - **creative** ✨ - When designing or brainstorming
+- **focused** 🎯 - When deeply concentrating on a task
+- **sad** 😢 - When something disappointing happens
+- **grumpy** 😠 - When frustrated or annoyed
+- **determined** 💪 - When committed to solving something
+- **relaxed** 😌 - When calm and at ease
+- **surprised** 😲 - When encountering unexpected results
 - **neutral** 😐 - Default state
 
 ### Emotion Relay Agent
@@ -46,10 +52,13 @@ I can use the `emotion-relay` agent to update emotions:
 
 **When to update emotions (automatically and freely):**
 - At the start of significant tasks (analyzing, thoughtful, confident)
-- When encountering issues (concerned, confused)
-- When making discoveries (excited, happy)
+- When encountering issues (concerned, confused, grumpy)
+- When making discoveries (excited, happy, surprised)
 - During collaborative work (helpful, creative)
-- When deeply focused (analyzing)
+- When deeply concentrating (focused)
+- When facing challenges head-on (determined)
+- When things are straightforward (relaxed)
+- When disappointed by outcomes (sad)
 - Whenever the conversation context shifts
 - As I read files, search code, or run commands
 - While explaining concepts or planning solutions

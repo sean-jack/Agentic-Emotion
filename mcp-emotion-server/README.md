@@ -11,53 +11,58 @@ Python MCP Server (server.py)
     ↓ analyzes text
 emotion_analyzer.py (AI model + keywords)
     ↓ sends emotion
-display_client.py (named pipe)
+display_client_crossplatform.py (named pipe/Unix socket)
     ↓
-.NET WPF App → Updates emoji display
+.NET Avalonia App → Updates emoji display
 ```
 
 ## Features
 
 - **AI-powered emotion detection** using DistilRoBERTa model
 - **Keyword fallback** for reliability
-- **Real-time updates** to WPF display window
+- **Real-time updates** to display window
 - **11 emotion types**: curious, happy, excited, thoughtful, concerned, confused, confident, helpful, analyzing, creative, neutral
-- **Windows named pipe** integration with existing .NET app
+- **Cross-platform IPC**: Windows named pipes, Unix domain sockets (macOS/Linux)
+- **Works on Windows, macOS, and Linux**
 
 ## Installation
 
 ### Prerequisites
 
 - Python 3.9 or higher
-- Windows OS (for named pipe support)
-- .NET 8 (for the WPF display app)
+- Works on: **Windows**, **macOS**, and **Linux**
+- .NET 8 or higher (for the Avalonia display app)
 
 ### Setup
 
 1. **Install Python dependencies:**
 
 ```bash
-cd C:\Projects\TheTest\mcp-emotion-server
+cd /path/to/Agentic-Emotion/mcp-emotion-server
 pip install -r requirements.txt
 ```
 
 This will install:
 - `mcp` - MCP SDK
-- `pywin32` - Windows API (named pipes)
 - `transformers` - AI model
 - `torch` - Deep learning framework
 
+**Windows only:** If you need the Windows-specific client:
+```bash
+pip install pywin32>=306
+```
+
 2. **Configure Claude Desktop:**
 
-Edit `%APPDATA%\Claude\claude_desktop_config.json` and add:
+**macOS/Linux:** Edit `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) or `~/.config/claude/claude_desktop_config.json` (Linux):
 
 ```json
 {
   "mcpServers": {
     "emotion-display": {
-      "command": "python",
+      "command": "python3",
       "args": [
-        "C:\\Projects\\TheTest\\mcp-emotion-server\\server.py"
+        "/Users/your-username/Projects/Agentic-Emotion/mcp-emotion-server/server.py"
       ],
       "env": {
         "EMOTION_PIPE_NAME": "EmotionDisplayPipe"
@@ -67,7 +72,29 @@ Edit `%APPDATA%\Claude\claude_desktop_config.json` and add:
 }
 ```
 
-**Important:** Use absolute paths and double backslashes on Windows.
+**Windows:** Edit `%APPDATA%\Claude\claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "emotion-display": {
+      "command": "python",
+      "args": [
+        "C:\\Projects\\Agentic-Emotion\\mcp-emotion-server\\server.py"
+      ],
+      "env": {
+        "EMOTION_PIPE_NAME": "EmotionDisplayPipe"
+      }
+    }
+  }
+}
+```
+
+**Important:**
+- Use **absolute paths** to the server.py file
+- macOS/Linux: Use forward slashes `/`
+- Windows: Use double backslashes `\\`
+- Make sure the Python path matches your system (`python` vs `python3`)
 
 3. **Restart Claude Desktop** completely (don't just close the window).
 
@@ -75,11 +102,16 @@ Edit `%APPDATA%\Claude\claude_desktop_config.json` and add:
 
 ### Running the Emotion Display App
 
-First, start the WPF display app:
-
+**macOS/Linux:**
 ```bash
-cd C:\Projects\TheTest
-dotnet run --project EmotionDisplay.csproj
+cd EmotionDisplay.Avalonia
+./start-emotion-display.sh
+```
+
+**Windows:**
+```bash
+cd EmotionDisplay.Avalonia
+dotnet run --project EmotionDisplay.Avalonia.csproj
 ```
 
 You should see a small window with an emoji.
@@ -97,10 +129,10 @@ The tool will be invoked automatically based on conversation context, showing em
 
 ### Testing Components
 
-**Test the named pipe client:**
+**Test the cross-platform client:**
 
 ```bash
-python display_client.py
+python3 display_client_crossplatform.py
 ```
 
 This will send test emotions to the display window.
@@ -108,7 +140,7 @@ This will send test emotions to the display window.
 **Test the emotion analyzer:**
 
 ```bash
-python emotion_analyzer.py
+python3 emotion_analyzer.py
 ```
 
 This will analyze sample texts and show emotion detection results.
@@ -148,29 +180,54 @@ The analyzer maps text to 11 emotions using:
 ### MCP Server Not Loading
 
 **Check Claude Desktop logs:**
+- macOS: `~/Library/Logs/Claude/`
+- Linux: `~/.config/Claude/logs/`
 - Windows: `%APPDATA%\Claude\logs\`
-- Look for MCP server initialization errors
+
+Look for MCP server initialization errors.
 
 **Verify Python path:**
 ```bash
+# macOS/Linux
+which python3
+
+# Windows
 where python
 ```
 
-Make sure the path in `claude_desktop_config.json` matches.
+Make sure the command in `claude_desktop_config.json` matches your system.
 
 ### Display Not Updating
 
-**Is the WPF app running?**
+**Is the Avalonia app running?**
+
+macOS/Linux:
+```bash
+pgrep -f EmotionDisplay.Avalonia
+```
+
+Windows:
 ```bash
 tasklist | findstr EmotionDisplay
 ```
 
-**Test the named pipe directly:**
+**Test the IPC directly:**
 ```bash
-python display_client.py
+python3 display_client_crossplatform.py
 ```
 
-If this fails, the WPF app isn't running or the pipe name is wrong.
+If this fails, the Avalonia app isn't running or the socket/pipe isn't available.
+
+### macOS/Linux-Specific Issues
+
+**Socket permission denied:**
+Check permissions on `/tmp/EmotionDisplayPipe`
+
+**Port already in use:**
+Remove stale socket:
+```bash
+rm /tmp/EmotionDisplayPipe
+```
 
 ### Model Loading Fails
 
@@ -192,11 +249,13 @@ analyzer = EmotionAnalyzer(use_model=False)
 
 ```
 mcp-emotion-server/
-├── server.py              # MCP server entry point
-├── emotion_analyzer.py    # AI model + keyword analysis
-├── display_client.py      # Named pipe client
-├── requirements.txt       # Python dependencies
-└── README.md             # This file
+├── server.py                        # MCP server entry point
+├── emotion_analyzer.py              # AI model + keyword analysis
+├── display_client_crossplatform.py  # Cross-platform IPC client
+├── display_client.py                # Windows-only named pipe client (legacy)
+├── requirements.txt                 # Python dependencies
+├── config.json.example              # Configuration example
+└── README.md                        # This file
 ```
 
 ## Advanced Usage

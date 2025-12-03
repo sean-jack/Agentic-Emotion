@@ -13,7 +13,7 @@ from mcp.types import Tool, TextContent
 import mcp.server.stdio
 
 from emotion_analyzer import EmotionAnalyzer
-from display_client import send_emotion
+from display_client_crossplatform import send_emotion
 
 
 # Initialize components
@@ -23,7 +23,8 @@ server = Server("emotion-display")
 
 VALID_EMOTIONS = [
     "curious", "happy", "excited", "thoughtful", "concerned",
-    "confused", "confident", "helpful", "analyzing", "creative", "neutral"
+    "confused", "confident", "helpful", "analyzing", "creative", "neutral",
+    "focused", "sad", "grumpy", "determined", "relaxed", "surprised"
 ]
 
 

@@ -52,6 +52,26 @@ namespace EmotionDisplay
             if (request.Contains("analyze") || request.Contains("find") || request.Contains("search") || request.Contains("look"))
                 return "analyzing";
 
+            // Focus and concentration
+            if (request.Contains("focus") || request.Contains("concentrate") || request.Contains("working on") || request.Contains("debugging"))
+                return "focused";
+
+            // Determination and commitment
+            if (request.Contains("must") || request.Contains("will") || request.Contains("determined") || request.Contains("going to"))
+                return "determined";
+
+            // Relaxation and calm
+            if (request.Contains("relax") || request.Contains("calm") || request.Contains("easy") || request.Contains("simple"))
+                return "relaxed";
+
+            // Frustration and annoyance
+            if (request.Contains("ugh") || request.Contains("annoying") || request.Contains("frustrated") || request.Contains("damn"))
+                return "grumpy";
+
+            // Sadness and disappointment
+            if (request.Contains("sad") || request.Contains("disappointed") || request.Contains("unfortunate") || request.Contains("regret"))
+                return "sad";
+
             // Help requests
             if (request.Contains("help") || request.Contains("please") || request.Contains("can you"))
                 return "helpful";

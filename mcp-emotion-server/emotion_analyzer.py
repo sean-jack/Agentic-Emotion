@@ -11,7 +11,8 @@ class EmotionAnalyzer:
 
     VALID_EMOTIONS = {
         "curious", "happy", "excited", "thoughtful", "concerned",
-        "confused", "confident", "helpful", "analyzing", "creative", "neutral"
+        "confused", "confident", "helpful", "analyzing", "creative", "neutral",
+        "focused", "sad", "grumpy", "determined", "relaxed", "surprised"
     }
 
     def __init__(self, use_model: bool = True):
@@ -71,6 +72,18 @@ class EmotionAnalyzer:
         if any(word in text_lower for word in ["analyze", "find", "search", "look", "investigate", "explore"]):
             return "analyzing"
 
+        # Focus and concentration
+        if any(word in text_lower for word in ["focus", "concentrate", "working on", "debugging", "deep dive"]):
+            return "focused"
+
+        # Determination and commitment
+        if any(word in text_lower for word in ["must", "will", "determined", "committed", "going to", "let's do"]):
+            return "determined"
+
+        # Relaxation and calm
+        if any(word in text_lower for word in ["relax", "calm", "easy", "simple", "straightforward", "no problem"]):
+            return "relaxed"
+
         # Help requests
         if any(word in text_lower for word in ["help", "please", "can you", "could you", "would you"]):
             return "helpful"
@@ -105,13 +118,13 @@ class EmotionAnalyzer:
         result = self.model(text[:512])[0]  # Limit text length
         model_emotion = result[0]['label'].lower()
 
-        # Map model emotions (6 basic) to our 11 emotions
+        # Map model emotions (6 basic) to our 17 emotions
         emotion_map = {
             "joy": "happy",
-            "surprise": "excited",
-            "anger": "concerned",
+            "surprise": "surprised",
+            "anger": "grumpy",
             "fear": "concerned",
-            "sadness": "thoughtful",
+            "sadness": "sad",
             "disgust": "confused",
             "neutral": "confident",  # Neutral statements often convey confidence
         }
@@ -136,6 +149,14 @@ class EmotionAnalyzer:
         # Problems and concerns
         if any(word in text_lower for word in ["error", "bug", "broken", "issue", "problem", "fail", "crash"]):
             return "concerned"
+
+        # Frustration and annoyance
+        if any(word in text_lower for word in ["ugh", "annoying", "frustrated", "irritating", "damn", "argh"]):
+            return "grumpy"
+
+        # Sadness and disappointment
+        if any(word in text_lower for word in ["sad", "disappointed", "unfortunate", "sorry", "regret", "bad news"]):
+            return "sad"
 
         # Complex or uncertain
         if any(word in text_lower for word in ["maybe", "not sure", "confused", "unclear", "uncertain"]):
