@@ -1,6 +1,8 @@
 # Emotion Display System
 
-A .NET WPF application that displays visual emotion feedback in a small window, with MCP server integration for AI-powered emotion analysis during Claude Code conversations.
+A cross-platform .NET application that displays visual emotion feedback in a small window, with MCP server integration for AI-powered emotion analysis during Claude Code conversations.
+
+Built with Avalonia UI - runs on Windows, macOS, and Linux.
 
 ## Quick Start
 
@@ -11,26 +13,21 @@ A .NET WPF application that displays visual emotion feedback in a small window, 
 start-emotion-display.bat
 ```
 
-**Option 2: Avalonia (Cross-Platform)**
+**Option 2: Manual**
 ```bash
 cd EmotionDisplay.Avalonia\EmotionDisplay.Avalonia
 dotnet run
 ```
 
-**Option 3: Manual WPF**
-```bash
-dotnet run --project EmotionDisplay.csproj
-```
-
 ### macOS / Linux
 
-**Use the Avalonia version:**
+**Option 1: Using Shell Scripts (Recommended)**
 ```bash
 cd EmotionDisplay.Avalonia
 ./start-emotion-display.sh
 ```
 
-Or manually:
+**Option 2: Manual**
 ```bash
 cd EmotionDisplay.Avalonia/EmotionDisplay.Avalonia
 dotnet run
@@ -38,12 +35,11 @@ dotnet run
 
 ## Components
 
-1. **EmotionDisplay (WPF)** - Windows-only WPF app that shows an emoji in a small window
-2. **EmotionDisplay.Avalonia** - Cross-platform version (Windows, macOS, Linux) built with Avalonia UI
-3. **EmotionAgent** - .NET agent with keyword-based emotion analysis
-4. **TestAgent** - Console app to test the .NET system
-5. **MCP Emotion Server** - Python MCP server for AI-powered analysis with Claude Code
-6. **Helper Scripts** - Batch (Windows) and shell (macOS/Linux) scripts for easy startup
+1. **EmotionDisplay.Avalonia** - Cross-platform Avalonia UI app (Windows, macOS, Linux)
+2. **EmotionAgent** - .NET agent with keyword-based emotion analysis
+3. **TestAgent** - Console app to test the .NET system
+4. **MCP Emotion Server** - Python MCP server for AI-powered analysis with Claude Code
+5. **Helper Scripts** - Batch (Windows) and shell (macOS/Linux) scripts for easy startup
 
 ## Available Emotions
 
@@ -66,11 +62,10 @@ dotnet run
 - **.NET 8 SDK** or higher (.NET 9 recommended for Avalonia)
 - **Python 3.9+** (for MCP server integration)
 - **OS**: Windows 10/11, macOS 10.15+, or Linux with X11/Wayland
-  - **Note**: WPF version is Windows-only; Avalonia version is cross-platform
 
 ### Step 1: Install .NET Dependencies
 
-The EmotionDisplay app uses WPF and .NET 8. Ensure you have the .NET SDK installed:
+The EmotionDisplay app uses Avalonia and .NET 8+. Ensure you have the .NET SDK installed:
 
 ```bash
 dotnet --version
@@ -319,10 +314,7 @@ Any HuggingFace emotion classification model will work.
 
 ```
 TheTest/
-├── EmotionDisplay.csproj          # WPF app project (Windows only)
-├── MainWindow.xaml                # WPF UI layout
-├── MainWindow.xaml.cs             # WPF UI logic + named pipe server
-├── EmotionDisplay.Avalonia/       # Cross-platform Avalonia version
+├── EmotionDisplay.Avalonia/       # Cross-platform Avalonia app
 │   ├── EmotionDisplay.Avalonia/
 │   │   ├── MainWindow.axaml       # Avalonia UI layout
 │   │   ├── MainWindow.axaml.cs    # Avalonia logic
