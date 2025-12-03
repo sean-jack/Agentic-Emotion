@@ -4,32 +4,46 @@ A .NET WPF application that displays visual emotion feedback in a small window, 
 
 ## Quick Start
 
-### Option 1: Using Batch Scripts (Recommended)
+### Windows
 
-1. **Start the EmotionDisplay app:**
-   ```batch
-   start-emotion-display.bat
-   ```
-   This will check if EmotionDisplay is already running and start it if needed.
+**Option 1: Using Batch Scripts (Recommended)**
+```batch
+start-emotion-display.bat
+```
 
-2. **Check if it's running:**
-   ```batch
-   check-emotion-display.bat
-   ```
+**Option 2: Avalonia (Cross-Platform)**
+```bash
+cd EmotionDisplay.Avalonia\EmotionDisplay.Avalonia
+dotnet run
+```
 
-### Option 2: Manual Start
-
+**Option 3: Manual WPF**
 ```bash
 dotnet run --project EmotionDisplay.csproj
 ```
 
+### macOS / Linux
+
+**Use the Avalonia version:**
+```bash
+cd EmotionDisplay.Avalonia
+./start-emotion-display.sh
+```
+
+Or manually:
+```bash
+cd EmotionDisplay.Avalonia/EmotionDisplay.Avalonia
+dotnet run
+```
+
 ## Components
 
-1. **EmotionDisplay** - WPF app that shows an emoji in a small window
-2. **EmotionAgent** - .NET agent with keyword-based emotion analysis
-3. **TestAgent** - Console app to test the .NET system
-4. **MCP Emotion Server** - Python MCP server for AI-powered analysis with Claude Code
-5. **Batch Scripts** - Helper scripts for easy startup
+1. **EmotionDisplay (WPF)** - Windows-only WPF app that shows an emoji in a small window
+2. **EmotionDisplay.Avalonia** - Cross-platform version (Windows, macOS, Linux) built with Avalonia UI
+3. **EmotionAgent** - .NET agent with keyword-based emotion analysis
+4. **TestAgent** - Console app to test the .NET system
+5. **MCP Emotion Server** - Python MCP server for AI-powered analysis with Claude Code
+6. **Helper Scripts** - Batch (Windows) and shell (macOS/Linux) scripts for easy startup
 
 ## Available Emotions
 
@@ -49,9 +63,10 @@ dotnet run --project EmotionDisplay.csproj
 
 ### Prerequisites
 
-- **.NET 8 SDK** or higher
+- **.NET 8 SDK** or higher (.NET 9 recommended for Avalonia)
 - **Python 3.9+** (for MCP server integration)
-- **Windows OS** (for named pipe support)
+- **OS**: Windows 10/11, macOS 10.15+, or Linux with X11/Wayland
+  - **Note**: WPF version is Windows-only; Avalonia version is cross-platform
 
 ### Step 1: Install .NET Dependencies
 
@@ -304,22 +319,31 @@ Any HuggingFace emotion classification model will work.
 
 ```
 TheTest/
-├── EmotionDisplay.csproj      # WPF app project
-├── MainWindow.xaml            # UI layout
-├── MainWindow.xaml.cs         # UI logic + named pipe server
-├── EmotionAgent.cs            # .NET emotion analyzer
-├── TestAgent.cs               # Test console app
-├── TestAgent.csproj           # Test project
-├── start-emotion-display.bat  # Start script
-├── check-emotion-display.bat  # Status check script
-├── mcp-emotion-server/        # Python MCP server
-│   ├── server.py              # MCP entry point
-│   ├── emotion_analyzer.py    # AI analysis
-│   ├── display_client.py      # Named pipe client
-│   └── requirements.txt       # Python deps
-└── .claude/                   # Claude Code configuration
-    ├── CLAUDE.md              # Claude instructions
-    └── agents/                # Custom agents
+├── EmotionDisplay.csproj          # WPF app project (Windows only)
+├── MainWindow.xaml                # WPF UI layout
+├── MainWindow.xaml.cs             # WPF UI logic + named pipe server
+├── EmotionDisplay.Avalonia/       # Cross-platform Avalonia version
+│   ├── EmotionDisplay.Avalonia/
+│   │   ├── MainWindow.axaml       # Avalonia UI layout
+│   │   ├── MainWindow.axaml.cs    # Avalonia logic
+│   │   └── EmotionDisplay.Avalonia.csproj
+│   ├── start-emotion-display.sh   # macOS/Linux startup
+│   ├── check-emotion-display.sh   # Status check (Unix)
+│   └── README.md                  # Avalonia docs
+├── EmotionAgent.cs                # .NET emotion analyzer
+├── TestAgent.cs                   # Test console app
+├── TestAgent.csproj               # Test project
+├── start-emotion-display.bat      # Windows start script
+├── check-emotion-display.bat      # Windows status check
+├── mcp-emotion-server/            # Python MCP server
+│   ├── server.py                  # MCP entry point
+│   ├── emotion_analyzer.py        # AI analysis
+│   ├── display_client.py          # Named pipe client (Windows)
+│   ├── display_client_crossplatform.py  # Cross-platform client
+│   └── requirements.txt           # Python deps
+└── .claude/                       # Claude Code configuration
+    ├── CLAUDE.md                  # Claude instructions
+    └── agents/                    # Custom agents
 ```
 
 ## License

@@ -1,0 +1,29 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="300"
+        x:Class="EmotionDisplay.Avalonia.MainWindow"
+        Title="Emotion Display"
+        Width="300" Height="300"
+        CanResize="False"
+        SystemDecorations="BorderOnly"
+        Topmost="True">
+    <Grid Background="#1E1E1E">
+        <Viewbox>
+            <TextBlock x:Name="EmotionDisplay"
+                       Text="😐"
+                       FontSize="120"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Foreground="White"/>
+        </Viewbox>
+        <TextBlock x:Name="EmotionLabel"
+                   Text="Neutral"
+                   FontSize="14"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Bottom"
+                   Margin="10"
+                   Foreground="#888888"/>
+    </Grid>
+</Window>
