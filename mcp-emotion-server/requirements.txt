@@ -1,0 +1,4 @@
+mcp>=0.9.0
+pywin32>=306
+transformers>=4.30.0
+torch>=2.0.0

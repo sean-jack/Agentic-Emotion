@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "emotion-display": {
+      "command": "python",
+      "args": [
+        "C:\\Projects\\TheTest\\mcp-emotion-server\\server.py"
+      ],
+      "env": {
+        "EMOTION_PIPE_NAME": "EmotionDisplayPipe",
+        "LOG_LEVEL": "INFO"
+      }
+    }
+  }
+}
